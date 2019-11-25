@@ -15,6 +15,9 @@ import java.awt.event.WindowEvent;
 public class TankFrame extends Frame {
 
     Tank myTank = new Tank(200, 200, Dir.DOWN);
+    Bullet b= new Bullet(300, 300, Dir.DOWN);
+
+    static final int GAME_WIDTH = 800, GAME_HEIGHT = 600;
 
     public TankFrame() {
         setSize(800, 600);
@@ -39,10 +42,27 @@ public class TankFrame extends Frame {
         });
     }
 
+    Image offScreenImage = null;
+
+    @Override
+    public void update(Graphics g) {
+        if (offScreenImage == null){
+            offScreenImage = this.createImage(GAME_WIDTH, GAME_HEIGHT);
+        }
+        Graphics gOffScreen = offScreenImage.getGraphics();
+        Color c = gOffScreen.getColor();
+        gOffScreen.setColor(Color.BLACK);
+        gOffScreen.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+        gOffScreen.setColor(c);
+        paint(gOffScreen);
+        g.drawImage(offScreenImage, 0, 0, null);
+    }
+
     @Override
     public void paint(Graphics g) {
 
         myTank.paint(g);
+        b.paint(g);
 
     }
 
@@ -105,7 +125,7 @@ public class TankFrame extends Frame {
             }else {
                 myTank.setMoving(true);
             }
-            
+
             if (bL) myTank.setDir(Dir.LEFT);
             if (bU) myTank.setDir(Dir.UP);
             if (bR) myTank.setDir(Dir.RIGHT);
