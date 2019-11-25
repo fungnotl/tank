@@ -14,7 +14,7 @@ import java.awt.event.WindowEvent;
  */
 public class TankFrame extends Frame {
 
-    int x = 200, y = 200;
+    Tank myTank = new Tank(200, 200, Dir.DOWN);
 
     public TankFrame() {
         setSize(800, 600);
@@ -42,9 +42,7 @@ public class TankFrame extends Frame {
     @Override
     public void paint(Graphics g) {
 
-        g.fillRect(x, y, 50, 50);
-        //x += 10;
-        //y += 10;
+        myTank.paint(g);
 
     }
 
@@ -75,8 +73,7 @@ public class TankFrame extends Frame {
                     break;
 
             }
-            //x += 200;
-            //repaint();
+            setMainTankDir();
         }
 
         @Override
@@ -97,10 +94,27 @@ public class TankFrame extends Frame {
                     break;
                 default:
                     break;
-
             }
+            setMainTankDir();
+
+        }
+
+        private void setMainTankDir() {
+            if (!bL && !bD && !bR && !bU){
+                myTank.setMoving(false);
+            }else {
+                myTank.setMoving(true);
+            }
+            
+            if (bL) myTank.setDir(Dir.LEFT);
+            if (bU) myTank.setDir(Dir.UP);
+            if (bR) myTank.setDir(Dir.RIGHT);
+            if (bD) myTank.setDir(Dir.DOWN);
+
 
         }
 
     }
+
+
 }
